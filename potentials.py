@@ -71,6 +71,7 @@ def spiral_potential(r, phi):
     beta = (1.0 + khz + 0.3*(khz**2))/(1.0 + 0.3*khz)
     exp = np.exp(-((r - r_0)/R_s))
     return (4.0*np.pi*G*h_z*rho_0*C*exp*np.cos(2.0*(phi - (np.log(r/r_0)/np.tan(pitch_angle)))))/(kappa*beta)
+
 # Print indicative value
 print("\nSpiral Potential Indicative Value")
-print("V_sp(1.0)=", spiral_potential(1.0))
+print("V_sp(1.0, 0.0)=", spiral_potential(1.0, 0.0))

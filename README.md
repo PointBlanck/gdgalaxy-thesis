@@ -1,0 +1,1 @@
+# Numeric calculation of spiral-maintaining family of orbits in a Grand Design galaxy

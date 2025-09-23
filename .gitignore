@@ -1,0 +1,4 @@
+# Ignore the following files when staging.
+__pycache__
+.venv
+mathematica

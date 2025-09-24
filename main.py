@@ -2,6 +2,7 @@
 
 # Import necessary modules
 import precalculation as pc
+import integration as ints
 
 def main():
     """ Main function """
@@ -12,20 +13,16 @@ def main():
     print(100*"=")
 
     # Ask user for input
-    precalc = input("Q1: Would you like to inspect the model via plots?")
+    precalc = input("Q1: Would you like to inspect the model via plots? (y/n)")
     if precalc.lower() == "y":
-        max_r = input("Input: max_r\n")
-        max_r = int(max_r)
-        text = input("Input: dim(r), dim(phi)\n")
-        N_r, N_phi = text.split(",")
-        N_r = int(N_r.strip())
-        N_phi = int(N_phi.strip())
-        print("Plotting potentials...")
-        pc.plot_potentials(max_r, N_r, N_phi)
+        pc.plots()
     elif precalc.lower() == "n":
         print("\nPrecalculation denied.")
     else:
         return 1
+    
+    # Integrate system.
+    ints.integrate()
     print("Main terminated successfully")
     return 0
 

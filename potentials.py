@@ -11,6 +11,7 @@ import sympy as sp
 # Define necessary quantities
 # Global
 G = 4.3009172706e-6
+Omega_sp = 15.0
 
 # Disk potential constants
 M_d = 8.56e10
@@ -71,6 +72,11 @@ def spiral_potential(r, phi):
     beta = (1.0 + khz + 0.3*(khz**2))/(1.0 + 0.3*khz)
     exp = np.exp(-((r - r_0)/R_s))
     return (4.0*np.pi*G*h_z*rho_0*C*exp*np.cos(2.0*(phi - (np.log(r/r_0)/np.tan(pitch_angle)))))/(kappa*beta)
+
+def hamiltonian(r, phi, pr, pphi):
+    """ Definition of the hamiltonian """
+    return (pr**2)/2.0 + (pphi**2)/(2.0*(r**2)) - Omega_sp*pphi + disk_potential(r) + bulge_potential(r) + spiral_potential(r, phi)
+
 
 # Print indicative value
 print("\nSpiral Potential Indicative Value")

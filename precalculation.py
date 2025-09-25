@@ -1,5 +1,7 @@
 """ Module responsible for the pre-calculation inspection of the model. """
 
+# TODO: Can be optimized by sharing calculations of some quantities
+
 # Import necessary modules
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,7 +20,7 @@ def plots():
     if p1 == 1:
         plot_density(fig, ax)
     if p2 == 1:
-        plot_rotation_velocity(fig, ax)
+        fpower(fig, ax)
     if p3 == 1:
         plot_omega(fig, ax)
     if p4 == 1:
@@ -55,14 +57,13 @@ def plot_density(fig, ax):
     ax[0][0].set_box_aspect(1)
     ax[0][0].legend()
 
-def plot_rotation_velocity(fig, ax):
+def fpower(fig, ax):
     """ Plot rotation velocity vs r. """
-    # =======================================================================
-    # Doesn't produce same output because I didn't include halo potential
-    # =======================================================================
     max_r = int(input("Rotation velocity: Input max_r"))
     dim_r = int(input("Rotation velocity: Input dim_r"))
+    dim_phi = int(input("Rotation velocity: Input dim_r"))
     r = np.linspace(0, max_r, dim_r)
+    phi = np.linspace(0, 2.0*np.pi, dim_phi)
     disk_potential = pt.disk_potential(r)
     bulge_potential = pt.bulge_potential(r)
     axisymmetric_potential = disk_potential + bulge_potential
@@ -111,9 +112,11 @@ def plot_spiral_potential(fig, ax):
     dim_y = int(dim_y.strip())
     x, y = np.meshgrid(np.linspace(-max_x, max_x, dim_x), np.linspace(-max_y, max_y, dim_y))
     r = np.sqrt(x**2 + y**2)
+    dx = dy = r[0][1] - r[0][0]
     phi = np.atan2(y,x)
     spiral_potential = pt.spiral_potential(r, phi)
-    ax[1][1].pcolormesh(x, y, spiral_potential, cmap="inferno")
+    density = (np.gradient(np.gradient(spiral_potential, dx, axis=0), dx, axis=0) + np.gradient(np.gradient(spiral_potential, dy, axis=1), dy, axis=1))/(4.0*np.pi*pt.G)
+    ax[1][1].pcolormesh(x, y, density, cmap="inferno")
     ax[1][1].set_xlim(-max_x, max_x)
     ax[1][1].set_ylim(-max_y, max_y)
     ax[1][1].set_box_aspect(1)
